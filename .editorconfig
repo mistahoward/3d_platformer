@@ -55,6 +55,9 @@ end_of_line = lf
 # C# files
 [*.cs]
 
+# Namespace preferences
+dotnet_diagnostic.IDE0130.severity = none
+
 # New line preferences
 csharp_new_line_before_open_brace = none
 csharp_new_line_before_else = false
