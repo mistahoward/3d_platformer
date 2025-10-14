@@ -73,7 +73,9 @@
     "Platformer",
     "Rigidbody",
     "Scriptable",
-    "unitypackage"
+    "Tweening",
+    "unitypackage",
+    "Yoyo"
   ],
   "editor.formatOnSave": true
 }
