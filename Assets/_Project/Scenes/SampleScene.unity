@@ -795,6 +795,7 @@ GameObject:
   - component: {fileID: 887077872}
   - component: {fileID: 887077871}
   - component: {fileID: 887077876}
+  - component: {fileID: 887077877}
   m_Layer: 0
   m_Name: FreeLook Camera
   m_TagString: Untagged
@@ -1037,7 +1038,22 @@ MonoBehaviour:
   PivotOffset: {x: 0, y: 0, z: 0}
   AmplitudeGain: 0.2
   FrequencyGain: 0.2
-  m_NoiseOffsets: {x: 0, y: 0, z: 0}
+  m_NoiseOffsets: {x: 74.91336, y: -627.0864, z: 40.880585}
+--- !u!114 &887077877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887077869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae4ed70065526ee4981ebe04dcb53a5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Platformer.Scripts::Platformer.Input.CameraManager
+  _inputReader: {fileID: 11400000, guid: 2c59f6423cf59ff4382ff4b82629c4a9, type: 2}
+  _freeLookVCam: {fileID: 887077870}
+  _speedMultiplier: 1
 --- !u!1001 &1141540847
 PrefabInstance:
   m_ObjectHideFlags: 0

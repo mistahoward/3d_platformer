@@ -67,6 +67,11 @@
     "*.sln": "*.csproj"
   },
   "dotnet.defaultSolution": "3d_platformer.sln",
-  "cSpell.words": ["Cinemachine", "Platformer", "Scriptable"],
+  "cSpell.words": [
+    "Cinemachine",
+    "Platformer",
+    "Rigidbody",
+    "Scriptable"
+  ],
   "editor.formatOnSave": true
 }
