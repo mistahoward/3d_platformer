@@ -69,9 +69,11 @@
   "dotnet.defaultSolution": "3d_platformer.sln",
   "cSpell.words": [
     "Cinemachine",
+    "Demigiant",
     "Platformer",
     "Rigidbody",
-    "Scriptable"
+    "Scriptable",
+    "unitypackage"
   ],
   "editor.formatOnSave": true
 }

@@ -1,6 +1,8 @@
 using KBCore.Refs;
 using UnityEngine;
 using Unity.Cinemachine;
+using System.Collections.Generic;
+using System;
 
 namespace Platformer.Input {
 	public partial class PlayerController : ValidatedMonoBehaviour {
@@ -17,9 +19,19 @@ namespace Platformer.Input {
 		[SerializeField] private float _smoothTime = 0.2f;
 		private Transform _mainCamera;
 
+		[Header("Jump Settings")]
+		[SerializeField] private float _jumpForce = 10f;
+		[SerializeField] private float _jumpDuration = 0.5f;
+		[SerializeField] private float _jumpCoolDown = 0f;
+		[SerializeField] private float _jumpMaxHeight = 2f;
+		[SerializeField] private float _gravityMultiplier = 3f;
 		private float _currentSpeed;
 		private float _velocity;
+		private float _jumpVelocity;
 		private Vector3 _playerMovement;
+		private List<Timer> _timers;
+		private CountdownTimer _jumpTimer;
+		private CountdownTimer _jumpCoolDownTimer;
 		public static int Speed = Animator.StringToHash("Speed");
 
 		private void Awake() {
@@ -32,17 +44,62 @@ namespace Platformer.Input {
 			);
 
 			_rigidBody.freezeRotation = true;
+
+			_jumpTimer = new CountdownTimer(_jumpDuration);
+			_jumpCoolDownTimer = new CountdownTimer(_jumpCoolDown);
+			_timers = new List<Timer>(2) { _jumpTimer, _jumpCoolDownTimer };
+
+			_jumpTimer.OnTimerStop += () => _jumpCoolDownTimer.Start();
 		}
 		private void Start() =>
 			_inputReader.EnablePlayerActions();
+
+		private void OnEnable() =>
+			_inputReader.Jump += OnJump;
+
+		private void OnDisable() =>
+			_inputReader.Jump -= OnJump;
 		private void Update() {
 			_playerMovement = new Vector3(_inputReader.Direction.x, 0f, _inputReader.Direction.y);
-			HandleMovement();
+
+			HandleTimers();
 			UpdateAnimator();
 		}
 
+		private void HandleTimers() {
+			_timers.ForEach(t => t.Tick(Time.deltaTime));
+		}
+
 		private void FixedUpdate() {
+			HandleJump();
 			HandleMovement();
+		}
+
+		private void HandleJump() {
+			if (!_jumpTimer.IsRunning && _groundChecker.IsGrounded) {
+				_jumpVelocity = 0f;
+				_jumpTimer.Stop();
+				return;
+			}
+			if (_jumpTimer.IsRunning) {
+				// progress point for initial burst of velocity
+				float launchPoint = 0.9f;
+				if (_jumpTimer.Progress > launchPoint)
+					_jumpVelocity = Mathf.Sqrt(2 * _jumpMaxHeight * Math.Abs(Physics.gravity.y));
+				else
+					_jumpVelocity += (1 - _jumpTimer.Progress) * _jumpForce * Time.fixedDeltaTime;
+			} else
+				_jumpVelocity += _gravityMultiplier * Physics.gravity.y * Time.fixedDeltaTime;
+
+			_rigidBody.linearVelocity = new Vector3(_rigidBody.linearVelocity.x, _jumpVelocity, _rigidBody.linearVelocity.z);
+		}
+
+		private void OnJump(bool isJumping) {
+			if (isJumping && !_jumpTimer.IsRunning && !_jumpCoolDownTimer.IsRunning && _groundChecker.IsGrounded) {
+				_jumpTimer.Start();
+			} else if (!isJumping && _jumpTimer.IsRunning) {
+				_jumpTimer.Stop();
+			}
 		}
 
 		private void UpdateAnimator() {

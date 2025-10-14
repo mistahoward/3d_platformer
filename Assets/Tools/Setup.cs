@@ -10,6 +10,11 @@ public static class Setup {
 		Folders.CreateDefault("_Project", "Animation", "Art", "Materials", "Prefabs", "ScriptableObjects", "Scripts", "Settings");
 		Refresh();
 	}
+
+	[MenuItem("Tools/Setup/Import Assets")]
+	public static void ImportAssets() {
+		Assets.ImportAsset("DOTween HOTween v2.unitypackage", "Demigiant/Editor ExtensionsAnimation");
+	}
 	private static class Folders {
 		public static void CreateDefault(string root, params string[] folders) {
 			string fullPath = Combine(Application.dataPath, root);
@@ -17,6 +22,11 @@ public static class Setup {
 				string path = Combine(fullPath, folder);
 				if (!Exists(path)) CreateDirectory(path);
 			}
+		}
+	}
+	public static class Assets {
+		public static void ImportAsset(string asset, string subfolder, string folder = "C:/Users/Alex/AppData/Roaming/Unity/Asset Store-5.x") {
+			ImportPackage(Combine(folder, subfolder, asset), false);
 		}
 	}
 }
