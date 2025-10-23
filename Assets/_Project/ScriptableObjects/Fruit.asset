@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed2a9cbf54943c4419c4dc2637debacb, type: 3}
   m_Name: Fruit
   m_EditorClassIdentifier: Platformer.Scripts::Platformer.CollectibleData
-  PreFab: {fileID: 0}
-  Score: 0
+  PreFab: {fileID: 4463228217568313009, guid: 005570c4547710c4cafaa80fd8fade6d, type: 3}
+  Score: 10
